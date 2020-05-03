@@ -1,0 +1,75 @@
+html, body, .phx-connected, #playArea {
+    height: 100%;
+}
+.deck {
+    position: absolute;
+    height: 2cm;
+    width: 1.5cm;
+}
+.deck-size-1 {
+}
+.deck-size-2 {
+    box-shadow: 2px 2px grey;
+}
+.deck-size-3 {
+    box-shadow: 3px 3px grey;
+}
+.deck-size-4 {
+    box-shadow: 4px 4px grey;
+}
+.playcard {
+    border-width: 1px;
+    border-style: solid;
+    position: absolute;
+    font-size: 20pt;
+    width:  1.5cm;
+    height: 2cm;
+}
+.playcard:focus {
+    box-shadow: 0px 0px 15px #00d1b2;
+}
+.front {
+    border-color: black;
+    color: black;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+.back {
+    width: 100%;
+    height: 100%;
+}
+footer {
+    position: absolute;
+    bottom: 0em;
+    width: 100%;
+}
+.hand {
+    background-image: url("data:image/svg+xml;utf8,
+    <svg xmlns='http://www.w3.org/2000/svg' version='1.1'
+        height='70px' width='300px'>
+    <text x='0' y='70' fill='lightgrey' font-size='40'>MY HAND</text>
+</svg>");
+    background-color: #00d1b2;
+    min-height: 2cm;
+}
+.hand .playcard {
+    position: relative;
+    float: left;
+}
+.other {
+    background-color: #00d1b2;
+    color: #fff;
+    border-radius: 4px;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    margin: 1em;
+    position: relative;
+    text-align: center;
+}
+.other.disabled {
+    background-color: lightgrey;
+}

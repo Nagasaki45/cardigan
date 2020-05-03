@@ -12,9 +12,11 @@ defmodule Gamixir.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Gamixir.PubSub},
       # Start the Endpoint (http/https)
-      GamixirWeb.Endpoint
+      GamixirWeb.Endpoint,
       # Start a worker by calling: Gamixir.Worker.start_link(arg)
       # {Gamixir.Worker, arg}
+      {Registry, keys: :unique, name: Gamixir.TableRegistry},
+      {DynamicSupervisor, name: Gamixir.TableSupervisor, strategy: :one_for_one}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

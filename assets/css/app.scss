@@ -1,6 +1,12 @@
 /* This file is for your main application css. */
-@import "./phoenix.css";
+@import "../node_modules/bulma/css/bulma.css";
 @import "../node_modules/nprogress/nprogress.css";
+@import "./css/table.scss";
+
+/* General page design */
+.container {
+    max-width: 800px;
+}
 
 /* LiveView specific classes for your customizations */
 .invalid-feedback {

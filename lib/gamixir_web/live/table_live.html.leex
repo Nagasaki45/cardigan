@@ -1,0 +1,152 @@
+<%= if @game.started do %>
+
+  <div id="playArea" class="droppable" phx-hook="drop_zone" type="play_area">
+
+    <table class="table is-pulled-right">
+      <tr>
+        <td colspan="2"><b>shurtcuts</b></td>
+      </tr>
+      <tr>
+        <td>f</td><td>flip</td>
+      </tr>
+      <tr>
+        <td>p</td><td>pick</td>
+      </tr>
+      <tr>
+        <td>s</td><td>shuffle</td>
+      </tr>
+    </table>
+
+    <%= for deck <- @game.decks do %>
+      <div
+        id="<%= deck.id %>"
+        type="decks"
+        class="deck droppable deck-size-<%= min(length(deck.cards), 4) %>"
+        style="left: <%= Enum.at(deck.pos, 0) %>px; top: <%= Enum.at(deck.pos, 1) %>px"
+      >
+        <% card = hd(deck.cards) %>
+        <div
+          id="<%= card.id %>"
+          class="playcard"
+          draggable="true"
+          phx-hook="draggable_hook"
+          tabindex="0"
+          phx-value-from_is="decks"
+          phx-value-from_id="<%= deck.id %>"
+          phx-value-card_id="<%= card.id %>"
+          phx-keyup="key"
+        >
+          <%= if card.face do %>
+            <div
+              class="front"
+              style="background-color: <%= card.front_background_color %>;color: <%= card.text_color %>;"
+            >
+              <div class="card-text">
+                <%= Gamixir.Card.get_text(card) %>
+              </div>
+            </div>
+          <% else %>
+            <div class="back" style="background-color: <%= card.back_background_color %>;"></div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <footer>
+      <div class="container">
+        <div class="columns">
+          <%= for hand <- @game.hands do %>
+            <div class="column">
+              <%= if hand.id == @hand_id do %>
+                <div class="other disabled">
+                  <p><%= hand.id %>'s 🖐</p>
+                </div>
+              <% else %>
+                <div id="<%= hand.id %>" class="other droppable" type="hands">
+                  <p><%= hand.id %>'s 🖐</p>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%= if @hand_id do %>
+        <div id="<%= @hand_id %>" class="hand droppable" type="hands">
+          <%= for card <- Gamixir.Game.get_hand(@game, @hand_id).cards do %>
+            <div
+              id="<%= card.id %>"
+              class="playcard"
+              draggable="true"
+              phx-hook="draggable_hook"
+              tabindex="0"
+              phx-value-from_is="hands"
+              phx-value-from_id="<%= @hand_id %>"
+              phx-value-card_id="<%= card.id %>"
+              phx-keyup="key"
+            >
+              <%= if card.face do %>
+                <div
+                  class="front"
+                  style="background-color: <%= card.front_background_color %>;color: <%= card.text_color %>;"
+                >
+                  <%= card.text %>
+                </div>
+              <% else %>
+                <div class="back" style="background-color: <%= card.back_background_color %>;"></div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+    </footer>
+
+  <!-- end of playArea -->
+  </div>
+
+<!-- When game.started is false -->
+<% else %>
+
+<div class="section">
+  <div class="container">
+    <h1 class="title">Welcome to <%= @game.name %>!</h1>
+    <h2 class="subtitle">
+      Share this link with your friends to join:
+      <code class="html"><%= @table_url %></code>
+    </h2>
+    <div class="section has-text-centered">
+      <h2 class="subtitle">Players</h2>
+      <%= for hand <- @game.hands do %>
+        <div><%= hand.id %></div>
+      <% end %>
+    </div>
+    <%= if @hand_id do %>
+      <button
+        class="button is-primary"
+        phx-click="start"
+        <%= if not Gamixir.Game.startable?(@game) do %>
+          disabled
+        <% end %>
+      >
+        Start playing
+      </button>
+    <% else %>
+      <%= f = form_for :hand, "#", [phx_submit: "submit"] %>
+        <div class="field">
+          <label class="label">Join as</label>
+          <div class="control">
+            <%= text_input f, :id, class: "input", placeholder: "Your name" %>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <%= submit "Join", class: "button is-primary" %>
+          </div>
+        </div>
+      </form>
+    <% end %>
+  </div>
+</div>
+
+<% end %>
