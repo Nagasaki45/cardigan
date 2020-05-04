@@ -1,3 +1,3 @@
 defmodule GamixirWeb.CardComponent do
-  use Phoenix.LiveComponent
+  use GamixirWeb, :live_component
 end

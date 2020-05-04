@@ -54,46 +54,5 @@
 
 <!-- When game.started is false -->
 <% else %>
-
-<div class="section">
-  <div class="container">
-    <h1 class="title">Welcome to <%= @game.name %>!</h1>
-    <h2 class="subtitle">
-      Share this link with your friends to join:
-      <code class="html"><%= @table_url %></code>
-    </h2>
-    <div class="section has-text-centered">
-      <h2 class="subtitle">Players</h2>
-      <%= for hand <- @game.hands do %>
-        <div><%= hand.id %></div>
-      <% end %>
-    </div>
-    <%= if @hand_id do %>
-      <button
-        class="button is-primary"
-        phx-click="start"
-        <%= if not Gamixir.Game.startable?(@game) do %>
-          disabled
-        <% end %>
-      >
-        Start playing
-      </button>
-    <% else %>
-      <%= f = form_for :hand, "#", [phx_submit: "submit"] %>
-        <div class="field">
-          <label class="label">Join as</label>
-          <div class="control">
-            <%= text_input f, :id, class: "input", placeholder: "Your name" %>
-          </div>
-        </div>
-        <div class="field is-grouped">
-          <div class="control">
-            <%= submit "Join", class: "button is-primary" %>
-          </div>
-        </div>
-      </form>
-    <% end %>
-  </div>
-</div>
-
+  <%= live_component(@socket, GamixirWeb.JoiningComponent, game: @game, hand_id: @hand_id, table_url: @table_url) %>
 <% end %>

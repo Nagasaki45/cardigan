@@ -4,14 +4,16 @@ defmodule GamixirWeb.TableLive do
   @impl true
   def mount(%{"table_id" => table_id} = params, _session, socket) do
     {:ok, table} = Gamixir.TableManager.lookup(table_id)
+    game = Gamixir.Table.get_game(table)
 
     if connected?(socket), do: Gamixir.Table.subscribe(table_id)
 
     socket
     |> assign(:table, table)
     |> assign(:table_url, Routes.table_url(GamixirWeb.Endpoint, :show, table_id))
-    |> assign(:game, Gamixir.Table.get_game(table))
+    |> assign(:game, game)
     |> assign(:hand_id, Map.get(params, "hand_id"))
+    |> assign(:page_title, game.name)
     |> (fn socket -> {:ok, socket} end).()
   end
 
