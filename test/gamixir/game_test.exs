@@ -16,17 +16,16 @@ defmodule Gamixir.GameTest do
   test "move from deck to pos", %{game: game} do
     assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", "c1", [200, 200])
 
-    assert [%{id: new_deck_id}] = game.decks
+    assert [%{id: new_deck_id} = new_deck] = game.decks
     assert new_deck_id != "d1"
 
-    deck = Gamixir.Game.get_deck(game, new_deck_id)
-    assert deck.pos == [200, 200]
-    assert "c1" in Gamixir.Deck.get_cards(deck)
+    assert new_deck.pos == [200, 200]
+    assert "c1" in Gamixir.Deck.get_cards(new_deck)
   end
 
   test "flip", %{game: game} do
-    assert (Gamixir.Game.get_deck(game, "d1") |> Gamixir.Deck.get_card("c1")).face == false
+    assert %{decks: [%{id: "d1", cards: [%{id: "c1", face: false}]}]} = game
     assert {:ok, game} = Gamixir.Game.flip(game, :decks, "d1", "c1")
-    assert (Gamixir.Game.get_deck(game, "d1") |> Gamixir.Deck.get_card("c1")).face == true
+    assert %{decks: [%{id: "d1", cards: [%{id: "c1", face: true}]}]} = game
   end
 end

@@ -63,7 +63,7 @@
             <%= end %>
             <div id="<%= hand.id %>" class="hand droppable" type="hands">
               <%= if hand.id == @hand_id do %>
-                <%= for card <- Gamixir.Game.get_hand(@game, @hand_id).cards do %>
+                <%= for card <- hand.cards do %>
                   <div
                     id="<%= card.id %>"
                     class="playcard"

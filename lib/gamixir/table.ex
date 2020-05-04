@@ -8,20 +8,29 @@ defmodule Gamixir.Table do
   # Public API
 
   @doc """
-  Start a new table.
+  Start a new table with `id` and `game`.
   """
   def start_link({id, %Gamixir.Game{} = game}, opts \\ []) when is_binary(id) do
     GenServer.start_link(__MODULE__, {id, game}, opts)
   end
 
+  @doc """
+  Subscribe to update from the table by `id`.
+  """
   def subscribe(id) do
     Phoenix.PubSub.subscribe(Gamixir.PubSub, id)
   end
 
+  @doc """
+  Get the table id.
+  """
   def get_id(pid) do
     GenServer.call(pid, {:get_id})
   end
 
+  @doc """
+  Get the game.
+  """
   def get_game(pid) do
     GenServer.call(pid, {:get_game})
   end

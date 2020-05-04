@@ -16,21 +16,7 @@ defmodule Gamixir.Game do
   defdelegate pop(data, key), to: Map
 
   @doc """
-  Get a hand by name.
-  """
-  def get_hand(game, name) do
-    Enum.find(game.hands, &(Deck.get_id(&1) == name))
-  end
-
-  @doc """
-  Get a deck by ID.
-  """
-  def get_deck(game, deck_id) do
-    Enum.find(game.decks, &(Deck.get_id(&1) == deck_id))
-  end
-
-  @doc """
-  TODO
+  Is the game ready to start?
   """
   def startable?(game) do
     n = length(game.hands)
@@ -38,7 +24,7 @@ defmodule Gamixir.Game do
   end
 
   @doc """
-  Join a yet to start game, by hand name.
+  Join a yet to start game, by hand id.
   """
   def join(%__MODULE__{started: false} = game, hand_id) do
     if length(game.hands) < game.max_num_of_players do
@@ -57,7 +43,7 @@ defmodule Gamixir.Game do
   end
 
   @doc """
-  Move a card from a deck/hand to new position, either to a new deck or snapped to existing deck.
+  Move a card from a deck/hand to a new deck by position.
   """
   def move(game, from_is, from_id, card_id, pos) do
     case pop_from(game, from_is, from_id, card_id) do
@@ -68,10 +54,13 @@ defmodule Gamixir.Game do
         game
         |> place(card, pos)
         |> drop_empty_decks()
-        |> (fn x -> {:ok, x} end).()
+        |> ok()
     end
   end
 
+  @doc """
+  Move a card from a deck/hand to another deck/hand.
+  """
   def move(game, from_is, from_id, card_id, to_is, to_id) do
     case pop_from(game, from_is, from_id, card_id) do
       {:error, reason} ->
@@ -87,12 +76,12 @@ defmodule Gamixir.Game do
         game
         |> update_in([to_is, id_access(to_id)], &Deck.put(&1, card))
         |> drop_empty_decks()
-        |> (fn x -> {:ok, x} end).()
+        |> ok()
     end
   end
 
   @doc """
-  Flip a card in deck or hand.
+  Flip a card in deck/hand.
   """
   def flip(game, where, where_id, card_id) when where in [:decks, :hands] do
     game
@@ -101,7 +90,7 @@ defmodule Gamixir.Game do
   end
 
   @doc """
-  Shuffle a deck / hand.
+  Shuffle a deck/hand.
   """
   def shuffle(game, where, where_id) do
     {:ok, update_in(game, [where, id_access(where_id)], &Deck.shuffle/1)}
@@ -109,14 +98,16 @@ defmodule Gamixir.Game do
 
   # Internals
 
+  defp ok(x), do: {:ok, x}
+
   defp pop_from(game, where, where_id, card_id) do
     case get_and_update_in(game, [where, id_access(where_id)], &Deck.pop_card(&1, card_id)) do
       # When there's no such hand
       {[], _} ->
         {:error, :not_found}
 
-        # When there's no such card
-        {[nil], _} ->
+      # When there's no such card
+      {[nil], _} ->
         {:error, :not_found}
 
       {[%Card{} = card], game} ->
