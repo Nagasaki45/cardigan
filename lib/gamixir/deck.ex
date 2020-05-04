@@ -1,5 +1,4 @@
 defmodule Gamixir.Deck do
-
   @behaviour Access
 
   defstruct id: nil, pos: [20, 20], cards: []
