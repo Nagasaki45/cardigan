@@ -1,5 +1,4 @@
 defmodule Gamixir.Deck do
-  alias Gamixir.Card
 
   @behaviour Access
 
