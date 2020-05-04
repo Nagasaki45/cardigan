@@ -92,20 +92,29 @@ defmodule GamixirWeb.TableLive do
         },
         socket
       ) do
-    {:ok, _} = Gamixir.Table.move(socket.assigns.table, :decks, deck_id, card_id, :hands, socket.assigns.hand_id)
+    {:ok, _} =
+      Gamixir.Table.move(
+        socket.assigns.table,
+        :decks,
+        deck_id,
+        card_id,
+        :hands,
+        socket.assigns.hand_id
+      )
+
     {:noreply, socket}
   end
 
   @impl true
   def handle_event(
-    "key",
-    %{
-      "key" => "s",
-      "from_is" => "decks",
-      "from_id" => deck_id,
-    },
-    socket
-  ) do
+        "key",
+        %{
+          "key" => "s",
+          "from_is" => "decks",
+          "from_id" => deck_id
+        },
+        socket
+      ) do
     {:ok, _} = Gamixir.Table.shuffle(socket.assigns.table, :decks, deck_id)
     {:noreply, socket}
   end

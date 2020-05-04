@@ -32,11 +32,7 @@
       <div class="columns">
         <%= for hand <- @game.hands do %>
           <div class="column">
-            <%= if hand.id == @hand_id do %>
-              <p>My 🖐</p>
-            <% else %>
-              <p><%= hand.id %>'s 🖐</p>
-            <%= end %>
+            <p><%= if hand.id == @hand_id do %>My<% else %><%= hand.id %>&apos;s<% end %> 🖐</p>
             <div id="<%= hand.id %>" class="hand droppable" type="hands">
               <%= if hand.id == @hand_id do %>
                 <%= for card <- hand.cards do %>

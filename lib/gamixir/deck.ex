@@ -3,7 +3,7 @@ defmodule Gamixir.Deck do
 
   @behaviour Access
 
-  defstruct id: nil, pos: [500, 500], cards: []
+  defstruct id: nil, pos: [20, 20], cards: []
 
   # Implementing the Access behaviour by delegating to Map
   defdelegate fetch(data, key), to: Map
