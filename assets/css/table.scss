@@ -30,14 +30,12 @@ html, body, .phx-connected, #playArea {
 }
 .front {
     border-color: black;
-    color: black;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */
 }
-
 .back {
     width: 100%;
     height: 100%;
@@ -46,30 +44,14 @@ footer {
     position: absolute;
     bottom: 0em;
     width: 100%;
+    text-align: center;
 }
 .hand {
-    background-image: url("data:image/svg+xml;utf8,
-    <svg xmlns='http://www.w3.org/2000/svg' version='1.1'
-        height='70px' width='300px'>
-    <text x='0' y='70' fill='lightgrey' font-size='40'>MY HAND</text>
-</svg>");
     background-color: #00d1b2;
-    min-height: 2cm;
+    padding: 0.5rem;
+    height: 2.5cm;
 }
 .hand .playcard {
     position: relative;
     float: left;
-}
-.other {
-    background-color: #00d1b2;
-    color: #fff;
-    border-radius: 4px;
-    font-weight: 600;
-    padding: 0.5rem 0;
-    margin: 1em;
-    position: relative;
-    text-align: center;
-}
-.other.disabled {
-    background-color: lightgrey;
 }

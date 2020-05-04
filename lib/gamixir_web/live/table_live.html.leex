@@ -53,53 +53,45 @@
     <% end %>
 
     <footer>
-      <div class="container">
-        <div class="columns">
-          <%= for hand <- @game.hands do %>
-            <div class="column">
+      <div class="columns">
+        <%= for hand <- @game.hands do %>
+          <div class="column">
+            <%= if hand.id == @hand_id do %>
+              <p>My 🖐</p>
+            <% else %>
+              <p><%= hand.id %>'s 🖐</p>
+            <%= end %>
+            <div id="<%= hand.id %>" class="hand droppable" type="hands">
               <%= if hand.id == @hand_id do %>
-                <div class="other disabled">
-                  <p><%= hand.id %>'s 🖐</p>
-                </div>
-              <% else %>
-                <div id="<%= hand.id %>" class="other droppable" type="hands">
-                  <p><%= hand.id %>'s 🖐</p>
-                </div>
+                <%= for card <- Gamixir.Game.get_hand(@game, @hand_id).cards do %>
+                  <div
+                    id="<%= card.id %>"
+                    class="playcard"
+                    draggable="true"
+                    phx-hook="draggable_hook"
+                    tabindex="0"
+                    phx-value-from_is="hands"
+                    phx-value-from_id="<%= @hand_id %>"
+                    phx-value-card_id="<%= card.id %>"
+                    phx-keyup="key"
+                  >
+                    <%= if card.face do %>
+                      <div
+                        class="front"
+                        style="background-color: <%= card.front_background_color %>;color: <%= card.text_color %>;"
+                      >
+                        <%= card.text %>
+                      </div>
+                    <% else %>
+                      <div class="back" style="background-color: <%= card.back_background_color %>;"></div>
+                    <% end %>
+                  </div>
+                <% end %>
               <% end %>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       </div>
-
-      <%= if @hand_id do %>
-        <div id="<%= @hand_id %>" class="hand droppable" type="hands">
-          <%= for card <- Gamixir.Game.get_hand(@game, @hand_id).cards do %>
-            <div
-              id="<%= card.id %>"
-              class="playcard"
-              draggable="true"
-              phx-hook="draggable_hook"
-              tabindex="0"
-              phx-value-from_is="hands"
-              phx-value-from_id="<%= @hand_id %>"
-              phx-value-card_id="<%= card.id %>"
-              phx-keyup="key"
-            >
-              <%= if card.face do %>
-                <div
-                  class="front"
-                  style="background-color: <%= card.front_background_color %>;color: <%= card.text_color %>;"
-                >
-                  <%= card.text %>
-                </div>
-              <% else %>
-                <div class="back" style="background-color: <%= card.back_background_color %>;"></div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-
     </footer>
 
   <!-- end of playArea -->
