@@ -1,0 +1,24 @@
+<div
+  id="<%= @card.id %>"
+  class="playcard"
+  draggable="true"
+  phx-hook="draggable_hook"
+  tabindex="0"
+  phx-value-from_is="<%= @from_is %>"
+  phx-value-from_id="<%= @from_id %>"
+  phx-value-card_id="<%= @card.id %>"
+  phx-keyup="key"
+>
+  <%= if @card.face do %>
+    <div
+      class="front"
+      style="background-color: <%= @card.front_background_color %>;color: <%= @card.text_color %>;"
+    >
+      <div class="card-text">
+        <%= @card.text %>
+      </div>
+    </div>
+  <% else %>
+    <div class="back" style="background-color: <%= @card.back_background_color %>;"></div>
+  <% end %>
+</div>
