@@ -90,16 +90,16 @@ defmodule Gamixir.Table do
       apply(Gamixir.Game, func, [game | args])
     rescue
       e ->
-        Logger.error("#{inspect e}")
-      {:error, :server_error}
+        Logger.error("#{inspect(e)}")
+        {:error, :server_error}
     end
     |> case do
-         {:ok, game} ->
-           Phoenix.PubSub.broadcast(Gamixir.PubSub, id, :table_updated)
-           {:reply, {:ok, :success}, {id, game}}
+      {:ok, game} ->
+        Phoenix.PubSub.broadcast(Gamixir.PubSub, id, :table_updated)
+        {:reply, {:ok, :success}, {id, game}}
 
-         {:error, reason} ->
-           {:reply, {:error, reason}, {id, game}}
-       end
+      {:error, reason} ->
+        {:reply, {:error, reason}, {id, game}}
+    end
   end
 end

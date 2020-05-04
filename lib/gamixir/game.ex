@@ -38,6 +38,12 @@ defmodule Gamixir.Game do
   @doc """
   Start the game.
   """
+  def start(%__MODULE__{started: true}), do: {:error, :already_started}
+
+  def start(%__MODULE__{hands: hands, min_num_of_players: n}) when length(hands) < n do
+    {:error, :not_enough_players}
+  end
+
   def start(game) do
     {:ok, Map.put(game, :started, true)}
   end
@@ -62,21 +68,27 @@ defmodule Gamixir.Game do
   Move a card from a deck/hand to another deck/hand.
   """
   def move(game, from_is, from_id, card_id, to_is, to_id) do
-    case pop_from(game, from_is, from_id, card_id) do
-      {:error, reason} ->
-        {:error, reason}
+    case get_in(game, [to_is, id_access(to_id)]) do
+      [] ->
+        {:error, :not_found}
 
-      {:ok, card, game} ->
-        card =
-          case to_is do
-            :hands -> Map.put(card, :face, true)
-            :decks -> card
-          end
+      _ ->
+        case pop_from(game, from_is, from_id, card_id) do
+          {:error, reason} ->
+            {:error, reason}
 
-        game
-        |> update_in([to_is, id_access(to_id)], &Deck.put(&1, card))
-        |> drop_empty_decks()
-        |> ok()
+          {:ok, card, game} ->
+            card =
+              case to_is do
+                :hands -> Map.put(card, :face, true)
+                :decks -> card
+              end
+
+            game
+            |> update_in([to_is, id_access(to_id)], &Deck.put(&1, card))
+            |> drop_empty_decks()
+            |> ok()
+        end
     end
   end
 

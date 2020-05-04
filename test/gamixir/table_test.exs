@@ -25,5 +25,5 @@ defmodule Gamixir.TableTest do
 
   # I don't mind not testing the client side API for the modifiers:
   # 1. These will be called a lot, so should be quite OK.
-  # 2. If something is broken there it will crash the clients (the liveview). No much harm done.
+  # 2. If something is broken it will crash the clients (the liveview). No much harm done.
 end
