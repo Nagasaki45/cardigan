@@ -17,6 +17,15 @@ defmodule Gamixir.GameTest do
     assert {:error, :table_full} = Gamixir.Game.join(game, "Jack")
   end
 
+  test "join fail if hand_id empty", %{game: game} do
+    assert {:error, :argument_error} = Gamixir.Game.join(game, "")
+  end
+
+  test "join fail if hand_id not unique", %{game: game} do
+    assert {:ok, game} = Gamixir.Game.join(game, "John")
+    assert {:error, :not_unique} = Gamixir.Game.join(game, "John")
+  end
+
   test "start", %{game: game} do
     assert {:ok, game} = Gamixir.Game.join(game, "John")
     assert {:ok, %Gamixir.Game{started: true}} = Gamixir.Game.start(game)

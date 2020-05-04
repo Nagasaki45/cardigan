@@ -26,10 +26,16 @@ defmodule Gamixir.Game do
   @doc """
   Join a yet to start game, by hand id.
   """
+  def join(_, ""), do: {:error, :argument_error}
+
   def join(%__MODULE__{started: false} = game, hand_id) do
     if length(game.hands) < game.max_num_of_players do
-      hand = %Deck{id: hand_id}
-      {:ok, update_in(game.hands, &[hand | &1])}
+      if Enum.find(game.hands, &(&1.id == hand_id)) do
+        {:error, :not_unique}
+      else
+        hand = %Deck{id: hand_id}
+        {:ok, update_in(game.hands, &[hand | &1])}
+      end
     else
       {:error, :table_full}
     end
