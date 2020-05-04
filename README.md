@@ -1,5 +1,7 @@
 # Gamixir · Online card games
 
+[![Build Status](https://travis-ci.org/Nagasaki45/gamixir.svg?branch=master)](https://travis-ci.org/Nagasaki45/gamixir)
+
 An online alternative for board games for the `#covid19** days.
 
 **Features**
