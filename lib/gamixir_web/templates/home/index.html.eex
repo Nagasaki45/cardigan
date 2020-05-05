@@ -1,2 +1,0 @@
-<h1 class="title">Welcome to Gamixir</h1>
-<%= link "Create new table", class: "button is-primary", to: Routes.table_path(@conn, :new) %>

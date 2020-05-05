@@ -1,38 +1,47 @@
-<h1 class="title">Choose a game</h1>
-<%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
-    <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+<h1 class="title">Welcome to Gamixir</h1>
 
-    <div class="field">
-        <div class="control">
-            <div class="select" name="game">
-            <select name="game">
-                <%= for game <- @games do %>
-                    <option value="<%= game %>"><%= game %></option>
-                <% end %>
-            </select>
+<p>This is a platform for playing card games online. Some card games are available below, but you can also create your own.</p>
+<p>Note that it's a super early alpha software so don't expect smooth sailing... yet!</p>
+
+<div class="section">
+    <%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
+        <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+
+        <div class="field">
+            <div class="label">Choose a game</div>
+            <div class="control">
+                <div class="select" name="game">
+                <select name="game">
+                    <%= for game <- @games do %>
+                        <option value="<%= game %>"><%= game %></option>
+                    <% end %>
+                </select>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="field">
-        <div class="file">
-            <label class="file-label">
-                <%= file_input(f, :file, class: "file-input") %>
-                <span class="file-cta">
-                    <span class="file-icon">
-                        <i class="fas fa-upload"></i>
+        <div class="field">
+            <div class="label">Or upload a game (check out the examples <a href="https://github.com/Nagasaki45/gamixir/tree/master/priv/games">here</a>).</div>
+            <div class="file">
+                <label class="file-label">
+                    <%= file_input(f, :file, class: "file-input") %>
+                    <span class="file-cta">
+                        <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                            Choose a file…
+                        </span>
                     </span>
-                    <span class="file-label">
-                        Choose a file…
-                    </span>
-                </span>
-            </label>
+                </label>
+            </div>
         </div>
-    </div>
 
-    <div class="field is-grouped">
-        <div class="control">
-            <button class="button is-primary">Create</button>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary">Open a table</button>
+            </div>
         </div>
-    </div>
-<form>
+    </form>
+
+</div>

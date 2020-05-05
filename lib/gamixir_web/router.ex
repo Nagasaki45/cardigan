@@ -17,8 +17,8 @@ defmodule GamixirWeb.Router do
   scope "/", GamixirWeb do
     pipe_through :browser
 
-    get "/", HomeController, :index
-    resources "/table", TableController, only: [:new, :create]
+    get "/", TableController, :new
+    post "/create", TableController, :create
     live "/table/:table_id", TableLive, :show
     live "/table/:table_id/:hand_id", TableLive, :show
   end
