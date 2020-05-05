@@ -9,7 +9,7 @@ An online alternative for board games for the `#covid19` days.
 **Features**
 
 - [x] Open sandbox for playing card games.
-- [ ] User defined games, off the server: Define a game by creating a `json` file and upload to the site to open a table with friends.
+- [x] User defined games, off the server: Define a game by creating a `json` file and upload to the site to open a table with friends.
 - [ ] Games generator.
 
 ## Development

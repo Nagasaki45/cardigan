@@ -15,7 +15,7 @@ defmodule Gamixir.GameStore do
     Application.app_dir(:gamixir, ["priv", "games"])
   end
 
-  defp parse(filepath) do
+  def parse(filepath) do
     structure = %Gamixir.Game{decks: [%Gamixir.Deck{cards: [%Gamixir.Card{}]}]}
 
     with {:ok, content} <- File.read(filepath),

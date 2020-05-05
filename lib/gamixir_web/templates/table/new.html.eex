@@ -1,5 +1,5 @@
 <h1 class="title">Choose a game</h1>
-<form method="POST" action="<%= Routes.table_path(@conn, :create) %>">
+<%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
     <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
 
     <div class="field">
@@ -11,6 +11,22 @@
                 <% end %>
             </select>
             </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="file">
+            <label class="file-label">
+                <%= file_input(f, :file, class: "file-input") %>
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                </span>
+            </label>
         </div>
     </div>
 
