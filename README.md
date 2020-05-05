@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/Nagasaki45/gamixir.svg?branch=master)](https://travis-ci.org/Nagasaki45/gamixir)
 
+    :point_right: This project is not yet ready for prime time! There are bugs and a few crucial features are missing. Come back later, it will eventually work :pray:
+
 An online alternative for board games for the `#covid19** days.
 
 **Features**
