@@ -30,11 +30,16 @@ footer {
     width: 100%;
     text-align: center;
 }
+footer .column {
+    min-width: 0;
+}
 .hand {
     background-color: #00d1b2;
     min-height: 1em;
     height: 100%;
+    display: flex;
+    overflow-x: scroll;
 }
 .hand .card {
-    float: left;
+    flex-shrink: 0;
 }
