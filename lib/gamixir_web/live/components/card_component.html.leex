@@ -15,7 +15,7 @@
       style="
         <%= for {key, val} <- @card.front_style do %>
              <%= key %>: <%= val %>;
-        <%= end %>
+        <% end %>
       "
     >
       <div class="card-text">
@@ -26,7 +26,7 @@
     <div class="face back" style="
       <%= for {key, val} <- @card.back_style do %>
             <%= key %>: <%= val %>;
-      <%= end %>
+      <% end %>
     "></div>
   <% end %>
 </div>

@@ -35,12 +35,14 @@ html, body, .phx-connected, #playArea {
     background-size: contain;
 }
 .front {
+    background-color: white;
     border-color: black;
     display: flex;
     justify-content: center; /* align horizontal */
     align-items: center; /* align vertical */
 }
 .back {
+    background-color: black;
 }
 footer {
     position: absolute;
