@@ -11,14 +11,22 @@
 >
   <%= if @card.face do %>
     <div
-      class="front"
-      style="background-color: <%= @card.front_background_color %>;color: <%= @card.text_color %>;"
+      class="face front"
+      style="
+        <%= for {key, val} <- @card.front_style do %>
+             <%= key %>: <%= val %>;
+        <%= end %>
+      "
     >
       <div class="card-text">
         <%= @card.text %>
       </div>
     </div>
   <% else %>
-    <div class="back" style="background-color: <%= @card.back_background_color %>;"></div>
+    <div class="face back" style="
+      <%= for {key, val} <- @card.back_style do %>
+            <%= key %>: <%= val %>;
+      <%= end %>
+    "></div>
   <% end %>
 </div>
