@@ -1,6 +1,6 @@
 <div
   id="<%= @card.id %>"
-  class="playcard"
+  class="card"
   draggable="true"
   phx-hook="draggable_hook"
   tabindex="0"
@@ -8,25 +8,35 @@
   phx-value-from_id="<%= @from_id %>"
   phx-value-card_id="<%= @card.id %>"
   phx-keyup="key"
+  style="
+    <%= for {key, val} <- @card.style do %>
+      <%= key %>: <%= val %>;
+    <% end %>
+  "
 >
   <%= if @card.face do %>
     <div
       class="face front"
       style="
         <%= for {key, val} <- @card.front_style do %>
-             <%= key %>: <%= val %>;
+          <%= key %>: <%= val %>;
         <% end %>
       "
     >
-      <div class="card-text">
-        <%= @card.text %>
-      </div>
+      <%= if @card.text do %>
+        <div class="card-text">
+          <%= @card.text %>
+        </div>
+      <% end %>
     </div>
   <% else %>
-    <div class="face back" style="
-      <%= for {key, val} <- @card.back_style do %>
-            <%= key %>: <%= val %>;
-      <% end %>
-    "></div>
+    <div
+      class="face back"
+      style="
+        <%= for {key, val} <- @card.back_style do %>
+          <%= key %>: <%= val %>;
+        <% end %>
+      "
+    ></div>
   <% end %>
 </div>

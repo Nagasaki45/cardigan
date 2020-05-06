@@ -1,0 +1,25 @@
+// Defaults for cards customisation
+// --------------------------------
+//
+// These can be overwritten in card.style, card.front_style,
+// and card.back_style maps.
+//
+
+.card {
+    border-width: 1px;
+    border-style: solid;
+    width:  1.5cm;
+    height: 2cm;
+}
+
+.front {
+    background-color: white;
+    border-color: black;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
+.back {
+    background-color: black;
+}

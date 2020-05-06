@@ -3,8 +3,6 @@ html, body, .phx-connected, #playArea {
 }
 .deck {
     position: absolute;
-    height: 2cm;
-    width: 1.5cm;
 }
 .deck-size-1 {
 }
@@ -17,32 +15,14 @@ html, body, .phx-connected, #playArea {
 .deck-size-4 {
     box-shadow: 4px 4px grey;
 }
-.playcard {
-    border-width: 1px;
-    border-style: solid;
-    position: absolute;
-    font-size: 20pt;
-    width:  1.5cm;
-    height: 2cm;
-}
-.playcard:focus {
+.card:focus {
     box-shadow: 0px 0px 15px #00d1b2;
 }
 .face {
     width: 100%;
     height: 100%;
     background-position: center;
-    background-size: contain;
-}
-.front {
-    background-color: white;
-    border-color: black;
-    display: flex;
-    justify-content: center; /* align horizontal */
-    align-items: center; /* align vertical */
-}
-.back {
-    background-color: black;
+    background-size: cover;
 }
 footer {
     position: absolute;
@@ -52,10 +32,9 @@ footer {
 }
 .hand {
     background-color: #00d1b2;
-    padding: 0.5rem;
-    height: 2.5cm;
+    min-height: 1em;
+    height: 100%;
 }
-.hand .playcard {
-    position: relative;
+.hand .card {
     float: left;
 }
