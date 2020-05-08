@@ -51,6 +51,7 @@ defmodule Gamixir.Game do
   end
 
   def start(game) do
+    game = update_in(game.hands, &Enum.shuffle/1)
     {:ok, Map.put(game, :started, true)}
   end
 

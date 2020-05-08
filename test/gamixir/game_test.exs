@@ -41,6 +41,18 @@ defmodule Gamixir.GameTest do
     assert {:error, :already_started} = Gamixir.Game.start(game)
   end
 
+  test "start shuffles the hands order", %{game: game} do
+    assert {:ok, game} = Gamixir.Game.join(game, "John")
+    assert {:ok, game} = Gamixir.Game.join(game, "Jane")
+    permutations =
+      1..10
+      |> Stream.map(fn _ -> Gamixir.Game.start(game) end)
+      |> Enum.map(fn {:ok, g} -> Enum.map(g.hands, &(&1.id)) end)
+
+    all_equal = Enum.all?(permutations, &(&1 == hd(permutations)))
+    assert not all_equal
+  end
+
   test "move to pos", %{game: game} do
     pos = [123, 456]
     assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", "c1", pos)
