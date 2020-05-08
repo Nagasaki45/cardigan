@@ -97,4 +97,10 @@ defmodule Gamixir.GameTest do
     assert {:ok, game} = Gamixir.Game.flip(game, :decks, "d1", "c1")
     assert %{decks: [%{id: "d1", cards: [%{id: "c1", face: true}]}]} = game
   end
+
+  test "toggle deck display mode", %{game: game} do
+    assert %{decks: [%{id: "d1", fan: false}]} = game
+    assert {:ok, game} = Gamixir.Game.toggle_deck_display_mode(game, :decks, "d1")
+    assert %{decks: [%{id: "d1", fan: true}]} = game
+  end
 end

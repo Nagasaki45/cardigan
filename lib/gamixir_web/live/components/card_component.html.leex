@@ -11,6 +11,7 @@
   style="
     <%= for {key, val} <- @card.style do %>
       <%= key %>: <%= val %>;
+      <%= if key == "width" do %>--width: <%= val %><% end %>
     <% end %>
   "
 >

@@ -4,16 +4,26 @@ html, body, .phx-connected, #playArea {
 .deck {
     position: absolute;
 }
-.deck-size-1 {
+.stack {
+    box-shadow: var(--shadow) var(--shadow) gray;;
 }
-.deck-size-2 {
-    box-shadow: 2px 2px grey;
+.fan {
 }
-.deck-size-3 {
-    box-shadow: 3px 3px grey;
+.stack .card {
+    display: none;
 }
-.deck-size-4 {
-    box-shadow: 4px 4px grey;
+.stack .card:last-child {
+    display: inherit;
+}
+.fan .card {
+    float: left;
+    margin-left: calc(-0.55 * var(--width));
+}
+.fan .card:first-child {
+    margin-left: 0px;
+}
+.fan .card:hover {
+    transform: translatey(-1em);
 }
 .card:focus {
     box-shadow: 0px 0px 15px #00d1b2;

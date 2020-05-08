@@ -115,6 +115,15 @@ defmodule Gamixir.Game do
     {:ok, update_in(game, [where, id_access(where_id)], &Deck.shuffle/1)}
   end
 
+  @doc """
+  Toggle a deck display mode between stack and fan.
+  """
+  def toggle_deck_display_mode(game, where, where_id) do
+    game
+    |> update_in([where, id_access(where_id)], &Deck.toggle_display_mode/1)
+    |> (fn x -> {:ok, x} end).()
+  end
+
   # Internals
 
   defp ok(x), do: {:ok, x}

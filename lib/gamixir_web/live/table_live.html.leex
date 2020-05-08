@@ -15,22 +15,28 @@
       <tr>
         <td>s</td><td>shuffle</td>
       </tr>
+      <tr>
+        <td>m</td><td>deck mode</td>
+      </tr>
     </table>
 
     <%= for deck <- @game.decks do %>
+      <% [x, y] = deck.pos %>
       <div
         id="<%= deck.id %>"
         type="decks"
-        class="deck droppable deck-size-<%= min(length(deck.cards), 4) %>"
-        style="left: <%= Enum.at(deck.pos, 0) %>px; top: <%= Enum.at(deck.pos, 1) %>px"
+        class="deck droppable <%= if deck.fan do %>fan<% else %>stack<% end %>"
+        style="left: <%= x %>px; top: <%= y %>px; --shadow: <%= min(length(deck.cards), 4) %>px"
       >
-        <%=
-          live_component(
-            @socket,
-            GamixirWeb.CardComponent,
-            from_is: "decks", from_id: deck.id, card: hd(deck.cards), force_back: false
-          )
-        %>
+        <%= for card <- deck.cards |> Enum.reverse() do %>
+          <%=
+            live_component(
+              @socket,
+              GamixirWeb.CardComponent,
+              from_is: "decks", from_id: deck.id, card: card, force_back: false
+            )
+          %>
+        <% end %>
       </div>
     <% end %>
 

@@ -1,7 +1,7 @@
 defmodule Gamixir.Deck do
   @behaviour Access
 
-  defstruct id: nil, pos: [20, 20], cards: []
+  defstruct id: nil, pos: [20, 20], cards: [], fan: false
 
   # Implementing the Access behaviour by delegating to Map
   defdelegate fetch(data, key), to: Map
@@ -34,5 +34,9 @@ defmodule Gamixir.Deck do
   def dist(%__MODULE__{pos: [x0, y0]}, [x1, y1]) do
     square = fn x -> x * x end
     :math.sqrt(square.(x0 - x1) + square.(y0 - y1))
+  end
+
+  def toggle_display_mode(%__MODULE__{fan: fan} = deck) do
+    %__MODULE__{deck | fan: not fan}
   end
 end

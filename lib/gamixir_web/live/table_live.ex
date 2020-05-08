@@ -131,6 +131,20 @@ defmodule GamixirWeb.TableLive do
   end
 
   @impl true
+  def handle_event(
+        "key",
+        %{
+          "key" => "m",
+          "from_is" => "decks",
+          "from_id" => deck_id
+        },
+        socket
+      ) do
+    {:ok, _} = Gamixir.Table.toggle_deck_display_mode(socket.assigns.table, :decks, deck_id)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("key", _args, socket) do
     {:noreply, socket}
   end
