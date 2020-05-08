@@ -48,6 +48,7 @@ defmodule GamixirWeb.TableLive do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event(
         "move",
         %{
