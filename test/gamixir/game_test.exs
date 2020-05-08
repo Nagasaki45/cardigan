@@ -44,10 +44,11 @@ defmodule Gamixir.GameTest do
   test "start shuffles the hands order", %{game: game} do
     assert {:ok, game} = Gamixir.Game.join(game, "John")
     assert {:ok, game} = Gamixir.Game.join(game, "Jane")
+
     permutations =
       1..10
       |> Stream.map(fn _ -> Gamixir.Game.start(game) end)
-      |> Enum.map(fn {:ok, g} -> Enum.map(g.hands, &(&1.id)) end)
+      |> Enum.map(fn {:ok, g} -> Enum.map(g.hands, & &1.id) end)
 
     all_equal = Enum.all?(permutations, &(&1 == hd(permutations)))
     assert not all_equal
