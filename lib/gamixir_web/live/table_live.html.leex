@@ -24,7 +24,13 @@
         class="deck droppable deck-size-<%= min(length(deck.cards), 4) %>"
         style="left: <%= Enum.at(deck.pos, 0) %>px; top: <%= Enum.at(deck.pos, 1) %>px"
       >
-        <%= live_component(@socket, GamixirWeb.CardComponent, from_is: "decks", from_id: deck.id, card: hd(deck.cards)) %>
+        <%=
+          live_component(
+            @socket,
+            GamixirWeb.CardComponent,
+            from_is: "decks", from_id: deck.id, card: hd(deck.cards), force_back: false
+          )
+        %>
       </div>
     <% end %>
 
@@ -32,12 +38,17 @@
       <div class="columns">
         <%= for hand <- @game.hands do %>
           <div class="column">
-            <p><%= if hand.id == @hand_id do %>My<% else %><%= hand.id %>&apos;s<% end %> 🖐</p>
+            <% mine = (hand.id == @hand_id) %>
+            <p><%= if mine do %>My<% else %><%= hand.id %>&apos;s<% end %> 🖐</p>
             <div id="<%= hand.id %>" class="hand droppable" type="hands">
-              <%= if hand.id == @hand_id do %>
-                <%= for card <- hand.cards do %>
-                  <%= live_component(@socket, GamixirWeb.CardComponent, from_is: "hands", from_id: hand.id, card: card) %>
-                <% end %>
+              <%= for card <- hand.cards do %>
+                <%=
+                  live_component(
+                    @socket,
+                    GamixirWeb.CardComponent,
+                    from_is: "hands", from_id: hand.id, card: card, force_back: not mine
+                  )
+                %>
               <% end %>
             </div>
           </div>

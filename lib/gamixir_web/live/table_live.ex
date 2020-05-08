@@ -65,6 +65,17 @@ defmodule GamixirWeb.TableLive do
     {:noreply, socket}
   end
 
+  # Block flips on hands that are not mine
+  @impl true
+  def handle_event(
+        "key",
+        %{"key" => "f", "from_is" => "hands", "from_id" => from_id},
+        %{assigns: %{hand_id: hand_id}} = socket
+      )
+      when from_id != hand_id do
+    {:noreply, socket}
+  end
+
   @impl true
   def handle_event(
         "key",

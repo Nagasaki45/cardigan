@@ -14,7 +14,7 @@
     <% end %>
   "
 >
-  <%= if @card.face do %>
+  <%= if (not @force_back) and @card.face do %>
     <div
       class="face front"
       style="
