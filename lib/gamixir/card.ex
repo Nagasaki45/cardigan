@@ -1,6 +1,7 @@
 defmodule Gamixir.Card do
   defstruct id: nil,
             text: nil,
+            tooltip: nil,
             style: %{},
             front_style: %{},
             back_style: %{},
