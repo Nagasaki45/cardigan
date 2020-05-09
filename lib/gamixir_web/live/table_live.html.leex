@@ -43,11 +43,12 @@
     <footer>
       <div class="columns">
         <%= for hand <- @game.hands do %>
-          <div class="column">
+          <div id="<%= hand.id %>" class="column droppable" type="hands">
             <% mine = (hand.id == @hand_id) %>
-            <p><%= if mine do %>My<% else %><%= hand.id %>&apos;s<% end %> 🖐</p>
-            <div id="<%= hand.id %>" class="hand droppable" type="hands">
-              <%= for card <- hand.cards do %>
+            <div class="tag is-primary is-medium"><%= if mine do %>My<% else %><%= hand.id %>&apos;s<% end %> 🖐</div>
+
+            <div class="fan scrollable">
+              <%= for card <- hand.cards |> Enum.reverse() do %>
                 <%=
                   live_component(
                     @socket,
@@ -57,6 +58,7 @@
                 %>
               <% end %>
             </div>
+
           </div>
         <% end %>
       </div>

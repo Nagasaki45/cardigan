@@ -35,21 +35,19 @@ html, body, .phx-connected, #playArea {
     background-size: cover;
 }
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0em;
     width: 100%;
     text-align: center;
 }
 footer .column {
-    min-width: 0;
+    min-width: 0;  // Otherwise the flexbox grows with more elements
 }
-.hand {
-    background-color: #00d1b2;
-    min-height: 1em;
-    height: 100%;
+footer .fan {
     display: flex;
+    padding-top: 1em;  // Room for hovering
     overflow-x: scroll;
 }
-.hand .card {
+footer .fan .card {
     flex-shrink: 0;
 }
