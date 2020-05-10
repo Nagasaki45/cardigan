@@ -19,14 +19,14 @@ defmodule GamixirWeb.TableLive do
 
   @impl true
   def handle_event("submit", %{"hand" => %{"id" => hand_id}}, socket) do
-    {:ok, _} = Gamixir.Table.join(socket.assigns.table, hand_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :join, [hand_id])
     table_id = Gamixir.Table.get_id(socket.assigns.table)
     {:noreply, push_redirect(socket, to: Routes.table_path(socket, :show, table_id, hand_id))}
   end
 
   @impl true
   def handle_event("start", _params, socket) do
-    {:ok, _} = Gamixir.Table.start(socket.assigns.table)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :start)
     {:noreply, socket}
   end
 
@@ -44,7 +44,7 @@ defmodule GamixirWeb.TableLive do
         socket
       ) do
     from_is = String.to_existing_atom(from_is)
-    {:ok, _} = Gamixir.Table.move(socket.assigns.table, from_is, from_id, card_id, [x, y])
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, card_id, [x, y]])
     {:noreply, socket}
   end
 
@@ -62,7 +62,7 @@ defmodule GamixirWeb.TableLive do
       ) do
     from_is = String.to_existing_atom(from_is)
     to_is = String.to_existing_atom(to_is)
-    {:ok, _} = Gamixir.Table.move(socket.assigns.table, from_is, from_id, card_id, to_is, to_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, card_id, to_is, to_id])
     {:noreply, socket}
   end
 
@@ -89,7 +89,7 @@ defmodule GamixirWeb.TableLive do
         socket
       ) do
     from_is = String.to_existing_atom(from_is)
-    {:ok, _} = Gamixir.Table.flip(socket.assigns.table, from_is, from_id, card_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :flip, [from_is, from_id, card_id])
     {:noreply, socket}
   end
 
@@ -105,13 +105,10 @@ defmodule GamixirWeb.TableLive do
         socket
       ) do
     {:ok, _} =
-      Gamixir.Table.move(
+      Gamixir.Table.modify(
         socket.assigns.table,
-        :decks,
-        deck_id,
-        card_id,
-        :hands,
-        socket.assigns.hand_id
+        :move,
+        [:decks, deck_id, card_id, :hands, socket.assigns.hand_id]
       )
 
     {:noreply, socket}
@@ -127,7 +124,7 @@ defmodule GamixirWeb.TableLive do
         },
         socket
       ) do
-    {:ok, _} = Gamixir.Table.shuffle(socket.assigns.table, :decks, deck_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :shuffle, [:decks, deck_id])
     {:noreply, socket}
   end
 
@@ -141,7 +138,9 @@ defmodule GamixirWeb.TableLive do
         },
         socket
       ) do
-    {:ok, _} = Gamixir.Table.toggle_deck_display_mode(socket.assigns.table, :decks, deck_id)
+    {:ok, _} =
+      Gamixir.Table.modify(socket.assigns.table, :toggle_deck_display_mode, [:decks, deck_id])
+
     {:noreply, socket}
   end
 
@@ -155,7 +154,7 @@ defmodule GamixirWeb.TableLive do
         },
         socket
       ) do
-    {:ok, _} = Gamixir.Table.deck_up(socket.assigns.table, :decks, deck_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :deck_up, [:decks, deck_id])
     {:noreply, socket}
   end
 
@@ -169,7 +168,7 @@ defmodule GamixirWeb.TableLive do
         },
         socket
       ) do
-    {:ok, _} = Gamixir.Table.deck_down(socket.assigns.table, :decks, deck_id)
+    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :deck_down, [:decks, deck_id])
     {:noreply, socket}
   end
 

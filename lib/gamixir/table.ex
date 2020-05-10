@@ -37,40 +37,19 @@ defmodule Gamixir.Table do
 
   # Modifiers mimic `Gamixir.Game` functions.
 
-  def join(pid, hand_id) do
-    GenServer.call(pid, {:modifier, :join, [hand_id]})
-  end
+  @modifiers [
+    :join,
+    :start,
+    :move,
+    :flip,
+    :shuffle,
+    :toggle_deck_display_mode,
+    :deck_up,
+    :deck_down
+  ]
 
-  def start(pid) do
-    GenServer.call(pid, {:modifier, :start, []})
-  end
-
-  def move(pid, from_is, from_id, card_id, pos) do
-    GenServer.call(pid, {:modifier, :move, [from_is, from_id, card_id, pos]})
-  end
-
-  def move(pid, from_is, from_id, card_id, to_is, to_id) do
-    GenServer.call(pid, {:modifier, :move, [from_is, from_id, card_id, to_is, to_id]})
-  end
-
-  def flip(pid, where, where_id, card_id) do
-    GenServer.call(pid, {:modifier, :flip, [where, where_id, card_id]})
-  end
-
-  def shuffle(pid, where, where_id) do
-    GenServer.call(pid, {:modifier, :shuffle, [where, where_id]})
-  end
-
-  def toggle_deck_display_mode(pid, where, where_id) do
-    GenServer.call(pid, {:modifier, :toggle_deck_display_mode, [where, where_id]})
-  end
-
-  def deck_up(pid, where, where_id) do
-    GenServer.call(pid, {:modifier, :deck_up, [where, where_id]})
-  end
-
-  def deck_down(pid, where, where_id) do
-    GenServer.call(pid, {:modifier, :deck_down, [where, where_id]})
+  def modify(pid, modifier, args \\ []) when modifier in @modifiers do
+    GenServer.call(pid, {:modifier, modifier, args})
   end
 
   # GenServer Callbacks
