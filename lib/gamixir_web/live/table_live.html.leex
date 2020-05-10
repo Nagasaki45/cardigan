@@ -2,46 +2,7 @@
 
   <div id="playArea" class="droppable" phx-hook="drop_zone" type="play_area">
 
-    <table class="table is-pulled-right">
-      <tr>
-        <td colspan="2"><b>shortcuts</b></td>
-      </tr>
-      <tr>
-        <td>f</td><td>flip</td>
-      </tr>
-      <tr>
-        <td>p</td><td>pick</td>
-      </tr>
-      <tr>
-        <td>s</td><td>shuffle</td>
-      </tr>
-      <tr>
-        <td>u</td><td>deck up</td>
-      </tr>
-      <tr>
-        <td>d</td><td>deck down</td>
-      </tr>
-      <tr>
-        <td>m</td><td>deck mode</td>
-      </tr>
-      <tr>
-        <td colspan="2"><b>move mode</b></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <div class="control">
-            <label class="radio">
-              <input type="radio" name="answer" phx-click="move_mode_card" <%= if not @move_deck do %>checked<% end %>>
-              card
-            </label>
-            <label class="radio">
-              <input type="radio" name="answer" phx-click="move_mode_deck" <%= if @move_deck do %>checked<% end %>>
-              deck
-            </label>
-          </div>
-        </td>
-      </tr>
-    </table>
+    <%= live_component(@socket, GamixirWeb.ShortcutsAndModesComponent, move_deck: @move_deck) %>
 
     <%= for deck <- @game.decks do %>
       <% [x, y] = deck.pos %>
