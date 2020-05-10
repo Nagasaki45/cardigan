@@ -2,7 +2,21 @@ defmodule Gamixir.GameTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, game} = Gamixir.GameStore.get("one_card")
+    game = %Gamixir.Game{
+      name: "one_card",
+      max_num_of_players: 2,
+      decks: [
+        %Gamixir.Deck{
+          id: "d1",
+          cards: [
+            %Gamixir.Card{
+              id: "c1",
+              text: "X"
+            }
+          ]
+        }
+      ]
+    }
     %{game: game}
   end
 
