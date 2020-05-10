@@ -24,6 +24,23 @@
       <tr>
         <td>m</td><td>deck mode</td>
       </tr>
+      <tr>
+        <td colspan="2"><b>move mode</b></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div class="control">
+            <label class="radio">
+              <input type="radio" name="answer" phx-click="move_mode_card" <%= if not @move_deck do %>checked<% end %>>
+              card
+            </label>
+            <label class="radio">
+              <input type="radio" name="answer" phx-click="move_mode_deck" <%= if @move_deck do %>checked<% end %>>
+              deck
+            </label>
+          </div>
+        </td>
+      </tr>
     </table>
 
     <%= for deck <- @game.decks do %>

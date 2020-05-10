@@ -24,7 +24,11 @@ defmodule Gamixir.Deck do
   end
 
   def put(%__MODULE__{} = d, card) do
-    update_in(d.cards, &[card | &1])
+    put_cards(d, [card])
+  end
+
+  def put_cards(%__MODULE__{} = d, cards) do
+    update_in(d.cards, &(cards ++ &1))
   end
 
   def shuffle(%__MODULE__{} = d) do

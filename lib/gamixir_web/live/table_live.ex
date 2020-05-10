@@ -13,6 +13,7 @@ defmodule GamixirWeb.TableLive do
     |> assign(:table_url, Routes.table_url(GamixirWeb.Endpoint, :show, table_id))
     |> assign(:game, game)
     |> assign(:hand_id, Map.get(params, "hand_id"))
+    |> assign(:move_deck, false)
     |> assign(:page_title, game.name)
     |> (fn socket -> {:ok, socket} end).()
   end
@@ -44,7 +45,14 @@ defmodule GamixirWeb.TableLive do
         socket
       ) do
     from_is = String.to_existing_atom(from_is)
-    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, card_id, [x, y]])
+
+    if socket.assigns.move_deck do
+      {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, [x, y]])
+    else
+      {:ok, _} =
+        Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, card_id, [x, y]])
+    end
+
     {:noreply, socket}
   end
 
@@ -62,7 +70,21 @@ defmodule GamixirWeb.TableLive do
       ) do
     from_is = String.to_existing_atom(from_is)
     to_is = String.to_existing_atom(to_is)
-    {:ok, _} = Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, card_id, to_is, to_id])
+
+    if socket.assigns.move_deck do
+      {:ok, _} =
+        Gamixir.Table.modify(socket.assigns.table, :move, [from_is, from_id, to_is, to_id])
+    else
+      {:ok, _} =
+        Gamixir.Table.modify(socket.assigns.table, :move, [
+          from_is,
+          from_id,
+          card_id,
+          to_is,
+          to_id
+        ])
+    end
+
     {:noreply, socket}
   end
 
@@ -175,6 +197,16 @@ defmodule GamixirWeb.TableLive do
   @impl true
   def handle_event("key", _args, socket) do
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("move_mode_card", _args, socket) do
+    {:noreply, assign(socket, :move_deck, false)}
+  end
+
+  @impl true
+  def handle_event("move_mode_deck", _args, socket) do
+    {:noreply, assign(socket, :move_deck, true)}
   end
 
   @impl true

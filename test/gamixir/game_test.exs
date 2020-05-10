@@ -92,6 +92,46 @@ defmodule Gamixir.GameTest do
     assert %{hands: [%{id: "John", cards: [%{id: "c1", face: true}]}]} = g2
   end
 
+  test "move deck to pos", %{game: game} do
+    assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", [123, 456])
+    assert game.decks |> hd |> Map.get(:pos) == [123, 456]
+  end
+
+  test "move deck to position fail if no deck", %{game: game} do
+    assert {:error, :not_found} = Gamixir.Game.move(game, :decks, "xxx", [123, 456])
+  end
+
+  test "move deck to target deck", %{game: game} do
+    another_deck = %Gamixir.Deck{id: "d2", cards: [%Gamixir.Card{id: "c2"}]}
+    game = update_in(game.decks, &[another_deck | &1])
+    assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", :decks, "d2")
+    assert %{decks: [%{id: "d2", cards: [%{id: "c1"}, %{id: "c2"}]}]} = game
+  end
+
+  test "move deck to target hand", %{game: game} do
+    assert {:ok, game} = Gamixir.Game.join(game, "John")
+    assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", :hands, "John")
+    assert %{decks: [], hands: [%{id: "John", cards: [%{id: "c1"}]}]} = game
+  end
+
+  test "move deck to target deck fail if no deck", %{game: game} do
+    assert {:error, :not_found} = Gamixir.Game.move(game, :decks, "xxx", :decks, "d1")
+  end
+
+  test "move deck fail if no target deck", %{game: game} do
+    assert {:error, :not_found} = Gamixir.Game.move(game, :decks, "d1", :decks, "xxx")
+  end
+
+  test "move hand to pos", %{game: game} do
+    assert {:ok, game} = Gamixir.Game.join(game, "John")
+    assert {:ok, game} = Gamixir.Game.move(game, :decks, "d1", "c1", :hands, "John")
+    assert {:ok, game} = Gamixir.Game.move(game, :hands, "John", [123, 456])
+  end
+
+  test "move hand fail if no hand", %{game: game} do
+    assert {:error, :not_found} = Gamixir.Game.move(game, :hands, "John", [123, 456])
+  end
+
   test "flip", %{game: game} do
     assert %{decks: [%{id: "d1", cards: [%{id: "c1", face: false}]}]} = game
     assert {:ok, game} = Gamixir.Game.flip(game, :decks, "d1", "c1")

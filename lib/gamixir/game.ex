@@ -58,16 +58,40 @@ defmodule Gamixir.Game do
   @doc """
   Move a card from a deck/hand to a new deck by position.
   """
-  def move(game, from_is, from_id, card_id, pos) do
+  def move(game, from_is, from_id, card_id, pos) when is_list(pos) do
     case pop_from(game, from_is, from_id, card_id) do
       {:error, reason} ->
         {:error, reason}
 
       {:ok, card, game} ->
         game
-        |> place(card, pos)
+        |> place([card], pos)
         |> drop_empty_decks()
         |> ok()
+    end
+  end
+
+  @doc """
+  Move entire deck/hand to another deck/hand.
+  """
+  def move(game, from_is, from_id, to_is, to_id) do
+    case get_and_update_in(game, [from_is, id_access(from_id)], fn d ->
+           {d.cards, %{d | cards: []}}
+         end) do
+      {[], _} ->
+        {:error, :not_found}
+
+      {[cards], game} ->
+        case get_in(game, [to_is, id_access(to_id)]) do
+          [] ->
+            {:error, :not_found}
+
+          _ ->
+            game
+            |> update_in([to_is, id_access(to_id)], &Deck.put_cards(&1, cards))
+            |> drop_empty_decks()
+            |> ok()
+        end
     end
   end
 
@@ -96,6 +120,33 @@ defmodule Gamixir.Game do
             |> drop_empty_decks()
             |> ok()
         end
+    end
+  end
+
+  @doc """
+  Move entire deck to a new deck by position.
+  """
+  def move(game, :decks, deck_id, pos) when is_list(pos) do
+    case get_in(game, [:decks, id_access(deck_id)]) do
+      [] -> {:error, :not_found}
+      _ -> {:ok, update_in(game, [:decks, id_access(deck_id)], &Map.put(&1, :pos, pos))}
+    end
+  end
+
+  @doc """
+  Move entire hand to a new deck by position.
+  """
+  def move(game, :hands, hand_id, pos) when is_list(pos) do
+    case get_and_update_in(game, [:hands, id_access(hand_id)], fn hand ->
+           {hand.cards, %{hand | cards: []}}
+         end) do
+      {[], _} ->
+        {:error, :not_found}
+
+      {[cards], game} ->
+        game
+        |> place(cards, pos)
+        |> ok()
     end
   end
 
@@ -159,8 +210,8 @@ defmodule Gamixir.Game do
     end
   end
 
-  defp place(game, card, pos) do
-    deck = %Deck{id: Gamixir.Random.id(8), pos: pos} |> Deck.put(card)
+  defp place(game, cards, pos) do
+    deck = %Deck{id: Gamixir.Random.id(8), pos: pos, cards: cards}
     update_in(game.decks, &[deck | &1])
   end
 
