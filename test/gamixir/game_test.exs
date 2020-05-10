@@ -103,4 +103,13 @@ defmodule Gamixir.GameTest do
     assert {:ok, game} = Gamixir.Game.toggle_deck_display_mode(game, :decks, "d1")
     assert %{decks: [%{id: "d1", fan: true}]} = game
   end
+
+  test "deck up and down", %{game: game} do
+    assert Enum.all?(game.decks |> hd |> Map.get(:cards), &(not &1.face))
+    assert {:ok, game} = Gamixir.Game.deck_up(game, :decks, "d1")
+    assert Enum.all?(game.decks |> hd |> Map.get(:cards), & &1.face)
+
+    assert {:ok, game} = Gamixir.Game.deck_down(game, :decks, "d1")
+    assert Enum.all?(game.decks |> hd |> Map.get(:cards), &(not &1.face))
+  end
 end

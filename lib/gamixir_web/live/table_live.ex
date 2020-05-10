@@ -146,6 +146,34 @@ defmodule GamixirWeb.TableLive do
   end
 
   @impl true
+  def handle_event(
+        "key",
+        %{
+          "key" => "u",
+          "from_is" => "decks",
+          "from_id" => deck_id
+        },
+        socket
+      ) do
+    {:ok, _} = Gamixir.Table.deck_up(socket.assigns.table, :decks, deck_id)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event(
+        "key",
+        %{
+          "key" => "d",
+          "from_is" => "decks",
+          "from_id" => deck_id
+        },
+        socket
+      ) do
+    {:ok, _} = Gamixir.Table.deck_down(socket.assigns.table, :decks, deck_id)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("key", _args, socket) do
     {:noreply, socket}
   end

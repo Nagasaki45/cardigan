@@ -65,6 +65,14 @@ defmodule Gamixir.Table do
     GenServer.call(pid, {:modifier, :toggle_deck_display_mode, [where, where_id]})
   end
 
+  def deck_up(pid, where, where_id) do
+    GenServer.call(pid, {:modifier, :deck_up, [where, where_id]})
+  end
+
+  def deck_down(pid, where, where_id) do
+    GenServer.call(pid, {:modifier, :deck_down, [where, where_id]})
+  end
+
   # GenServer Callbacks
 
   @impl true

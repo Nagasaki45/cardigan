@@ -39,4 +39,8 @@ defmodule Gamixir.Deck do
   def toggle_display_mode(%__MODULE__{fan: fan} = deck) do
     %__MODULE__{deck | fan: not fan}
   end
+
+  def side(%__MODULE__{} = deck, face) do
+    update_in(deck, [:cards, Access.all()], &Map.put(&1, :face, face))
+  end
 end

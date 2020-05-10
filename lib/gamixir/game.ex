@@ -105,7 +105,7 @@ defmodule Gamixir.Game do
   def flip(game, where, where_id, card_id) when where in [:decks, :hands] do
     game
     |> update_in([where, id_access(where_id), :cards, id_access(card_id)], &Card.flip/1)
-    |> (fn x -> {:ok, x} end).()
+    |> ok()
   end
 
   @doc """
@@ -121,7 +121,23 @@ defmodule Gamixir.Game do
   def toggle_deck_display_mode(game, where, where_id) do
     game
     |> update_in([where, id_access(where_id)], &Deck.toggle_display_mode/1)
-    |> (fn x -> {:ok, x} end).()
+    |> ok()
+  end
+
+  @doc """
+  Set all cards in deck to face up.
+  """
+  def deck_up(game, where, where_id) do
+    face = true
+    deck_side(game, where, where_id, face)
+  end
+
+  @doc """
+  Set all cards in deck to face down.
+  """
+  def deck_down(game, where, where_id) do
+    face = false
+    deck_side(game, where, where_id, face)
   end
 
   # Internals
@@ -156,5 +172,11 @@ defmodule Gamixir.Game do
     update_in(game.decks, fn decks ->
       Enum.filter(decks, fn d -> not Enum.empty?(d.cards) end)
     end)
+  end
+
+  defp deck_side(game, where, where_id, face) do
+    game
+    |> update_in([where, id_access(where_id)], &Deck.side(&1, face))
+    |> ok()
   end
 end
