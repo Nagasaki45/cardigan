@@ -17,6 +17,7 @@ defmodule Gamixir.GameTest do
         }
       ]
     }
+
     %{game: game}
   end
 
