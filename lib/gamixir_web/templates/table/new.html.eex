@@ -1,47 +1,43 @@
 <h1 class="title">Welcome to Gamixir</h1>
 
-<p>This is a platform for playing card games online. Some card games are available below, but you can also create your own.</p>
-<p>Note that it's a super early alpha software so don't expect smooth sailing... yet!</p>
+<div class="content">
+    <p>This is a platform for playing card games online. Some card games are available below, but you can also create your own. Note that it's a super early alpha software so don't expect smooth sailing... yet!</p>
+</div>
 
-<div class="section">
-    <%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
-        <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+<h2 class="subtitle">What would you like to play?</h2>
 
-        <div class="field">
-            <div class="label">Choose a game</div>
-            <div class="control">
-                <div class="select" name="game">
-                <select name="game">
-                    <%= for game <- @games do %>
-                        <option value="<%= game %>"><%= game %></option>
-                    <% end %>
-                </select>
+<%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
+    <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+    <div class="columns is-multiline">
+        <%= for game <- @games do %>
+            <div class="column is-4">
+                <div class="box">
+                    <h3 class="title is-size-5"><%= game.name %></h3>
+                    <div class="content">
+                        <%= raw Earmark.as_html!(game.metadata) %>
+                    </div>
+                    <button type="submit" class="button is-primary" name="game" value="<%= game.name %>">Play</button>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="column is-4">
+            <div class="box">
+                <h3 class="title is-size-5">Didn't find anything to play?</h3>
+                <div class="content">
+                    <p>
+                        Create a game. check out the examples <a href="https://github.com/Nagasaki45/gamixir/tree/master/priv/games">here</a>. More info about game creation will be added soon.
+                    </p>
+                    <div class="field">
+                        <%= file_input(f, :file) %>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Play</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="field">
-            <div class="label">Or upload a game (check out the examples <a href="https://github.com/Nagasaki45/gamixir/tree/master/priv/games">here</a>).</div>
-            <div class="file">
-                <label class="file-label">
-                    <%= file_input(f, :file, class: "file-input") %>
-                    <span class="file-cta">
-                        <span class="file-icon">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label">
-                            Choose a file…
-                        </span>
-                    </span>
-                </label>
-            </div>
-        </div>
-
-        <div class="field is-grouped">
-            <div class="control">
-                <button class="button is-primary">Open a table</button>
-            </div>
-        </div>
-    </form>
-
-</div>
+    </div>
+</form>

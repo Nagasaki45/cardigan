@@ -2,13 +2,13 @@ defmodule Gamixir.TableTest do
   use ExUnit.Case, async: true
 
   setup do
-    {:ok, game} = Gamixir.GameStore.get("standard_deck")
+    {:ok, game} = Gamixir.GameStore.get("standard_deck.json")
     table = start_supervised!({Gamixir.Table, {"some_id", game}})
     %{table: table}
   end
 
   test "get_game", %{table: table} do
-    assert %Gamixir.Game{name: "standard deck"} = Gamixir.Table.get_game(table)
+    assert %Gamixir.Game{name: "Standard deck"} = Gamixir.Table.get_game(table)
   end
 
   test "get_id", %{table: table} do

@@ -6,6 +6,7 @@ defmodule Gamixir.Game do
   defstruct name: nil,
             min_num_of_players: 1,
             max_num_of_players: 20,
+            metadata: nil,
             decks: [],
             hands: [],
             started: false

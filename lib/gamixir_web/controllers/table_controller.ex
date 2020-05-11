@@ -3,7 +3,7 @@ defmodule GamixirWeb.TableController do
 
   def new(conn, _params) do
     conn
-    |> assign(:games, Gamixir.GameStore.list_names())
+    |> assign(:games, Gamixir.GameStore.list())
     |> assign(:csrf_token, get_csrf_token())
     |> render("new.html")
   end
@@ -14,7 +14,7 @@ defmodule GamixirWeb.TableController do
   end
 
   def create(conn, %{"game" => game_name}) do
-    {:ok, game} = Gamixir.GameStore.get(game_name)
+    {:ok, game} = Gamixir.GameStore.get_by_name(game_name)
     do_create(conn, game)
   end
 
