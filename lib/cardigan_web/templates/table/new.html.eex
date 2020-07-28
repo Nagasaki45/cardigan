@@ -1,0 +1,43 @@
+<h1 class="title">Welcome to Cardigan</h1>
+
+<div class="content">
+    <p>This is a platform for playing card games online. Some card games are available below, but you can also create your own. Note that it's a super early alpha software so don't expect smooth sailing... yet!</p>
+</div>
+
+<h2 class="subtitle">What would you like to play?</h2>
+
+<%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
+    <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
+    <div class="columns is-multiline">
+        <%= for game <- @games do %>
+            <div class="column is-4">
+                <div class="box">
+                    <h3 class="title is-size-5"><%= game.name %></h3>
+                    <div class="content">
+                        <%= raw Earmark.as_html!(game.metadata) %>
+                    </div>
+                    <button type="submit" class="button is-primary" name="game" value="<%= game.name %>">Play</button>
+                </div>
+            </div>
+        <% end %>
+
+        <div class="column is-4">
+            <div class="box">
+                <h3 class="title is-size-5">Didn't find anything to play?</h3>
+                <div class="content">
+                    <p>
+                        Create a game. check out the examples <a href="https://github.com/Nagasaki45/cardigan/tree/master/priv/games">here</a>. More info about game creation will be added soon.
+                    </p>
+                    <div class="field">
+                        <%= file_input(f, :file) %>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Play</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

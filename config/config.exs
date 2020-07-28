@@ -8,11 +8,11 @@
 use Mix.Config
 
 # Configures the endpoint
-config :gamixir, GamixirWeb.Endpoint,
+config :cardigan, CardiganWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "Qdp3QD3KKzYrCbYr12IllyP8YKIyfBGP8OkC7cvQtIKfOZnbQ0r1aacvNt/tjSyy",
-  render_errors: [view: GamixirWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Gamixir.PubSub,
+  render_errors: [view: CardiganWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Cardigan.PubSub,
   live_view: [signing_salt: "vJ2Iy2AD"]
 
 # Configures Elixir's Logger

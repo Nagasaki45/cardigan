@@ -1,6 +1,6 @@
-# Gamixir · Online card games
+# Cardigan · Play card games online
 
-[![Build Status](https://travis-ci.org/Nagasaki45/gamixir.svg?branch=master)](https://travis-ci.org/Nagasaki45/gamixir)
+[![Build Status](https://travis-ci.org/Nagasaki45/cardigan.svg?branch=master)](https://travis-ci.org/Nagasaki45/cardigan)
 
 **:point_right: This project is not yet ready for prime time! There are bugs and a few crucial features are missing. Come back later, it will eventually work :pray:**
 
