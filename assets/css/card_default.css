@@ -1,15 +1,16 @@
-// Defaults for cards customisation
-// --------------------------------
-//
-// These can be overwritten in card.style, card.front_style,
-// and card.back_style maps.
-//
+/*
+Defaults for cards customisation
+--------------------------------
+
+These can be overwritten in card.style, card.front_style,
+and card.back_style maps.
+*/
 
 .card {
     border-width: 1px;
     border-style: solid;
     width: 1.5cm;
-    --width: 1.5cm;  // Necessary for overlaps in fanned deck
+    --width: 1.5cm;  /* Necessary for overlaps in fanned deck */
     height: 2cm;
 }
 

@@ -57,7 +57,7 @@ defmodule Cardigan.Game do
   end
 
   @doc """
-  Move a card from a deck/hand to a new deck by position.
+  Move a cards / deck around.
   """
   def move(game, from_is, from_id, card_id, pos) when is_list(pos) do
     case pop_from(game, from_is, from_id, card_id) do
@@ -72,9 +72,6 @@ defmodule Cardigan.Game do
     end
   end
 
-  @doc """
-  Move entire deck/hand to another deck/hand.
-  """
   def move(game, from_is, from_id, to_is, to_id) do
     case get_and_update_in(game, [from_is, id_access(from_id)], fn d ->
            {d.cards, %{d | cards: []}}
@@ -96,9 +93,6 @@ defmodule Cardigan.Game do
     end
   end
 
-  @doc """
-  Move a card from a deck/hand to another deck/hand.
-  """
   def move(game, from_is, from_id, card_id, to_is, to_id) do
     case get_in(game, [to_is, id_access(to_id)]) do
       [] ->
@@ -124,9 +118,6 @@ defmodule Cardigan.Game do
     end
   end
 
-  @doc """
-  Move entire deck to a new deck by position.
-  """
   def move(game, :decks, deck_id, pos) when is_list(pos) do
     case get_in(game, [:decks, id_access(deck_id)]) do
       [] -> {:error, :not_found}
@@ -134,9 +125,6 @@ defmodule Cardigan.Game do
     end
   end
 
-  @doc """
-  Move entire hand to a new deck by position.
-  """
   def move(game, :hands, hand_id, pos) when is_list(pos) do
     case get_and_update_in(game, [:hands, id_access(hand_id)], fn hand ->
            {hand.cards, %{hand | cards: []}}

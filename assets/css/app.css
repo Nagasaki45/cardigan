@@ -1,8 +1,7 @@
 /* This file is for your main application css. */
-@import "bulma";
-@import "../node_modules/nprogress/nprogress.css";
-@import "./css/table.scss";
-@import "./css/card_default.scss";
+@import "../vendor/bulma.css";
+@import "./table.css";
+@import "./card_default.css";
 
 /* General page design */
 .container {

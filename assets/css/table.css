@@ -41,11 +41,11 @@ footer {
     text-align: center;
 }
 footer .column {
-    min-width: 0;  // Otherwise the flexbox grows with more elements
+    min-width: 0;  /* Otherwise the flexbox grows with more elements */
 }
 footer .fan {
     display: flex;
-    padding-top: 1em;  // Room for hovering
+    padding-top: 1em;  /* Room for hovering */
     overflow-x: scroll;
 }
 footer .fan .card {

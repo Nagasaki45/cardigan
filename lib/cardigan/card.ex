@@ -7,5 +7,5 @@ defmodule Cardigan.Card do
             back_style: %{},
             face: false
 
-  def flip(%__MODUE__{face: face} = card), do: Map.put(card, :face, not face)
+  def flip(%__MODULE__{face: face} = card), do: Map.put(card, :face, not face)
 end
