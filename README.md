@@ -23,4 +23,4 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Deployment
 
-To [gigalixir.com](https://www.gigalixir.com/) with `git push gigalixir master`.
+To a [Dokku](https://dokku.com/) instance running on a [Digital Ocean](https://digitalocean.com) droplet with `git push dokku master`. DNS through [cloudflare](https://cloudflare.com).
