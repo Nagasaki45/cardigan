@@ -22,7 +22,7 @@
         Start playing
       </button>
     <% else %>
-      <%= f = form_for :hand, "#", [phx_submit: "submit"] %>
+      <%= form_for :hand, "#", [phx_submit: "submit"], fn f -> %>
         <div class="field">
           <label class="label">Join as</label>
           <div class="control">
@@ -34,7 +34,7 @@
             <%= submit "Join", class: "button is-primary" %>
           </div>
         </div>
-      </form>
+      <% end %>
     <% end %>
   </div>
 </div>

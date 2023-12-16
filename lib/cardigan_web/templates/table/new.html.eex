@@ -6,7 +6,7 @@
 
 <h2 class="subtitle">What would you like to play?</h2>
 
-<%= f = form_for(@conn, Routes.table_path(@conn, :create), multipart: true) %>
+<%= form_for @conn, Routes.table_path(@conn, :create), [multipart: true], fn f -> %>
     <input type="hidden" name="_csrf_token" value="<%= @csrf_token %>">
     <div class="columns is-multiline">
         <%= for game <- @games do %>
@@ -40,4 +40,4 @@
             </div>
         </div>
     </div>
-</form>
+<% end %>

@@ -2,7 +2,7 @@
 
   <div id="playArea" class="droppable" phx-hook="drop_zone" type="play_area">
 
-    <%= live_component(@socket, CardiganWeb.ShortcutsAndModesComponent, move_deck: @move_deck) %>
+    <%= live_component(CardiganWeb.ShortcutsAndModesComponent, move_deck: @move_deck) %>
 
     <%= for deck <- @game.decks do %>
       <% [x, y] = deck.pos %>
@@ -15,7 +15,6 @@
         <%= for card <- deck.cards |> Enum.reverse() do %>
           <%=
             live_component(
-              @socket,
               CardiganWeb.CardComponent,
               from_is: "decks", from_id: deck.id, card: card, force_back: false
             )
@@ -35,7 +34,6 @@
               <%= for card <- hand.cards |> Enum.reverse() do %>
                 <%=
                   live_component(
-                    @socket,
                     CardiganWeb.CardComponent,
                     from_is: "hands", from_id: hand.id, card: card, force_back: not mine
                   )
@@ -53,5 +51,5 @@
 
 <!-- When game.started is false -->
 <% else %>
-  <%= live_component(@socket, CardiganWeb.JoiningComponent, game: @game, hand_id: @hand_id, table_url: @table_url) %>
+  <%= live_component(CardiganWeb.JoiningComponent, game: @game, hand_id: @hand_id, table_url: @table_url) %>
 <% end %>
